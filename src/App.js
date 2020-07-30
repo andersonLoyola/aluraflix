@@ -12,7 +12,7 @@ function App() {
       <Menu />
       <BannerMain 
         videoTitle = {DadosCategorias.categorias[0].videos[0].titulo}
-        videoDescription = {"Dddddddddddddd"}
+        videoDescription = {"O que é fontend? Trabalhando na área os termo HTML, CSS e JavaScript fazem parte da rotina das desenvolvedoras e desenvolvedores. Mas o que eles fazem, afinal? Descubra com a Vanessa!"}
         url = {DadosCategorias.categorias[0].videos[0].url}
         
       />
