@@ -5,17 +5,17 @@ import Button from '../Button';
 import './Menu.css';
 
 function Menu() {
-    return  (
-        <nav className = "Menu">
-            <Link to="/">
-                <img className = "Logo" src = {Logo} alt="Logo da aluraflix"/>
-            </Link>
+  return (
+    <nav className="Menu">
+      <Link to="/">
+        <img className="Logo" src={Logo} alt="Logo da aluraflix" />
+      </Link>
 
-            <Button as={ Link } className = "Button" to ="/cadastro/videos" >
-                Proximo Video   
-            </Button>
-        </nav>
-    );
+      <Button as={Link} className="Button" to="/cadastro/videos">
+        Proximo Video
+      </Button>
+    </nav>
+  );
 }
 
 export default Menu;

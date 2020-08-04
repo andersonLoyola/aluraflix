@@ -8,21 +8,21 @@ import {
 import './index.css';
 import Home from './Pages/Home';
 import CadastroVideos from './Pages/Cadastro/Video';
-import CadastroCategorias from './Pages/Cadastro/Categorias'
+import CadastroCategorias from './Pages/Cadastro/Categorias';
 
 ReactDOM.render(
   <Router>
     <Switch>
-      <Route path="/" component= {Home} exact/>
-      <Route path="/cadastro/videos" component= { CadastroVideos }  />
-      <Route path="/cadastro/categorias" component = { CadastroCategorias } />
-      <Route component = {() => (
+      <Route path="/" component={Home} exact />
+      <Route path="/cadastro/videos" component={CadastroVideos} />
+      <Route path="/cadastro/categorias" component={CadastroCategorias} />
+      <Route component={() => (
         <div>
           Página não encontrada erro 404
         </div>
-      )} />
-    </Switch> 
+      )}
+      />
+    </Switch>
   </Router>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
-
