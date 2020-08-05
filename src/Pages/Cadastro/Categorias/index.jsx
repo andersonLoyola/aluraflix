@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputField from '../../../components/InputField';
-import TextArea from '../../../components/TextArea';
+import Table from '../../../components/Table';
 import PageDefault from '../../../components/PageDefault/index';
 
 function CadastroCategorias() {
+  const tableHeaders = ['Nome da categoria', 'Descrição da categoria', 'Cor da categoria'];
   const [categorias, setCategorias] = useState([]);
 
   const valoresIniciais = {
@@ -21,6 +22,21 @@ function CadastroCategorias() {
 
     });
   };
+  useEffect(() => {
+    const URL = 'http://localhost:8080/categorias';
+    fetch(URL).then(async (valor) => {
+      try {
+        const resposta = await valor.json();
+        setCategorias([
+          ...resposta,
+        ]);
+      } catch (error) {
+        console.error(error);
+      }
+    }).catch((e) => {
+      console.error(e);
+    });
+  }, []);
 
   const inputHandler = ({ target }) => {
     setValue(
@@ -44,57 +60,39 @@ function CadastroCategorias() {
         setValores(valoresIniciais);
       }}
       >
-        <fieldset>
-          <InputField
-            tituloDoCampo="Nome da categoria: "
-            valor={valores.nome}
-            tipoDoCampo="text"
-            nomeDoCampo="nome"
-            handler={inputHandler}
-          />
-          <TextArea
-            tituloDoCampo="Descrição da categoria"
-            nomeDoCampo="descricao"
-            valor={valores.descricao}
-            handler={inputHandler}
-          />
-          <InputField
-            tituloDoCampo="Cor da categoria:"
-            tipoDoCampo="color"
-            nomeDoCampo="cor"
-            valor={valores.cor}
-            onChange={inputHandler}
-          />
-          <button type="submit">
-            Cadastrar
-          </button>
-        </fieldset>
+        <InputField
+          label="Nome da categoria"
+          value={valores.nome}
+          type="text"
+          name="nome"
+          handler={inputHandler}
+        />
+
+        <InputField
+          type="textarea"
+          label="Descrição da categoria"
+          name="descricao"
+          value={valores.descricao}
+          handler={inputHandler}
+        />
+
+        <InputField
+          type="color"
+          name="cor"
+          label="Cor"
+          value={valores.cor}
+          handler={inputHandler}
+        />
+        <button type="submit">
+          Cadastrar
+        </button>
       </form>
-      <table>
-        <caption>Categorias cadastradas</caption>
-        <thead>
-          <tr>
-            <th>Nome da categoria:</th>
-            <th>Descrição da categoria:</th>
-            <th>Cor da categoria:</th>
-          </tr>
-        </thead>
-        <tbody>
-          {categorias.map((categoria) => (
-            <tr key={`${categoria}`}>
-              <td>{ categoria.nome }</td>
-              <td>{ categoria.descricao }</td>
-              <td style={{
-                backgroundColor: categoria.cor,
-                color: 'white',
-              }}
-              >
-                {categoria.cor}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+
+      <Table
+        titulo="Categorias"
+        cabecalhos={tableHeaders}
+        categorias={categorias}
+      />
     </PageDefault>
   );
 }

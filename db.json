@@ -1,0 +1,10 @@
+{
+    "categorias": [
+        {   
+            "id": 1,
+            "nome": "front end",
+            "descricao": "lorem yara yara yara",
+            "color": "#cbd1ff"
+        }
+    ]
+}

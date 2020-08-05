@@ -29,3 +29,9 @@ a {
   display: flex;
   flex-direction: column;
 }
+
+/* button {
+  background-color: var(--black);
+  border-radius: 30px;
+  color: white;
+} */
