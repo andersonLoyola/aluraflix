@@ -1,98 +1,93 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import InputField from '../../../components/InputField';
-import Table from '../../../components/Table';
+import TableResponsive from '../../../components/Table';
+import { Button } from '../../../components/Button';
 import PageDefault from '../../../components/PageDefault/index';
+import useForm from '../../../hooks/useForm';
+import CategoriasRespository from '../../../repositories/CategoriasRepository';
 
 function CadastroCategorias() {
-  const tableHeaders = ['Nome da categoria', 'Descrição da categoria', 'Cor da categoria'];
-  const [categorias, setCategorias] = useState([]);
+  const tableHeaders = ['Titulo da categoria', 'Descrição da categoria', 'Cor da categoria'];
 
   const valoresIniciais = {
-    nome: '',
+    titulo: '',
     descricao: '',
-    cor: '',
+    cor: '#ffffff',
   };
 
-  const [valores, setValores] = useState(valoresIniciais);
+  const [categorias, setCategorias] = useState([]);
+  const [valores, inputHandler, clearForm] = useForm(valoresIniciais);
 
-  const setValue = (chave, valor) => {
-    setValores({
-      ...valores,
-      [chave]: valor,
-
-    });
-  };
   useEffect(() => {
-    const URL = 'http://localhost:8080/categorias';
-    fetch(URL).then(async (valor) => {
-      try {
-        const resposta = await valor.json();
-        setCategorias([
-          ...resposta,
-        ]);
-      } catch (error) {
-        console.error(error);
-      }
-    }).catch((e) => {
-      console.error(e);
-    });
+    CategoriasRespository.getAllCategories().then((resposta) => setCategorias(
+      resposta,
+    ));
   }, []);
-
-  const inputHandler = ({ target }) => {
-    setValue(
-      target.getAttribute('name'),
-      target.value,
-    );
-  };
 
   return (
     <PageDefault>
-      <h1>
-        Cadastro de categoria:
-        { valores.nome }
-      </h1>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        setCategorias([
-          ...categorias,
-          valores,
-        ]);
-        setValores(valoresIniciais);
-      }}
-      >
-        <InputField
-          label="Nome da categoria"
-          value={valores.nome}
-          type="text"
-          name="nome"
-          handler={inputHandler}
-        />
+      <div id="cadastro">
 
-        <InputField
-          type="textarea"
-          label="Descrição da categoria"
-          name="descricao"
-          value={valores.descricao}
-          handler={inputHandler}
-        />
+        <h1>
+          Cadastro de categoria:
+          { valores.titulo }
+        </h1>
 
-        <InputField
-          type="color"
-          name="cor"
-          label="Cor"
-          value={valores.cor}
-          handler={inputHandler}
-        />
-        <button type="submit">
-          Cadastrar
-        </button>
-      </form>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          CategoriasRespository.submitCategories(valores);
+          setCategorias([
+            ...categorias,
+            valores,
+          ]);
+          clearForm();
+        }}
+        >
+          <InputField
+            label="Nome da categoria"
+            value={valores.titulo}
+            type="text"
+            name="titulo"
+            handler={inputHandler}
+          />
 
-      <Table
-        titulo="Categorias"
-        cabecalhos={tableHeaders}
-        categorias={categorias}
-      />
+          <InputField
+            type="textarea"
+            label="Descrição da categoria"
+            name="descricao"
+            value={valores.descricao}
+            handler={inputHandler}
+          />
+
+          <InputField
+            type="color"
+            name="cor"
+            label="Cor"
+            value={valores.cor}
+            handler={inputHandler}
+          />
+
+          <Button className="Button">
+            Cadastrar
+          </Button>
+        </form>
+      </div>
+      <br />
+      <div id="categorias">
+        <TableResponsive
+          NomeDaTabela="Categorias"
+          titulo="Categorias"
+          cabecalhos={tableHeaders}
+          categorias={categorias}
+        />
+      </div>
+      <br />
+      <Link to="/cadastro/videos">
+        Cadastro de videos
+      </Link>
+      <br />
+      <br />
     </PageDefault>
   );
 }

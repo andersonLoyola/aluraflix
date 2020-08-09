@@ -1,45 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  Table, Td, Tr, Th,
+} from './styles';
 
-function Table({ titulo, cabecalhos, categorias }) {
+function TableResponsive({ NomeDaTabela, cabecalhos, categorias }) {
+  const key = ({ titulo, descricao, cor }, index) => `${titulo}${cor}${descricao}${index}`;
   return (
-    <table>
-      <caption>{titulo}</caption>
+    <Table>
       <thead>
-        <tr>
+        <Tr key="title-container">
+          <Th colSpan="3" key={NomeDaTabela}>
+            <h1>{NomeDaTabela}</h1>
+          </Th>
+        </Tr>
+        <Tr key="headers-container">
           {cabecalhos.map((cabecalho) => (
-            <th key={cabecalho}>{cabecalho}</th>
+            <Th key={cabecalho}>{cabecalho}</Th>
           ))}
-        </tr>
+        </Tr>
       </thead>
       <tbody>
-        {categorias.map((categoria) => (
-          <tr key={`${categoria}`}>
-            <td>{ categoria.nome }</td>
-            <td>{ categoria.descricao }</td>
-            <td style={{
+        {categorias.map((categoria, index) => (
+          <Tr key={key(categoria, index)}>
+            <Td>{ categoria.titulo }</Td>
+            <Td>{ categoria.descricao }</Td>
+            <Td style={{
               backgroundColor: categoria.cor,
               color: 'white',
             }}
             >
               {categoria.cor}
-            </td>
-          </tr>
+            </Td>
+          </Tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 }
 
-Table.propTypes = {
-  titulo: PropTypes.string.isRequired,
+TableResponsive.propTypes = {
+  NomeDaTabela: PropTypes.string.isRequired,
   cabecalhos: PropTypes.arrayOf(PropTypes.string).isRequired,
   categorias: PropTypes.arrayOf(PropTypes.shape({
-    nome: PropTypes.string.isRequired,
-    descricao: PropTypes.string.isRequired,
+    titulo: PropTypes.string.isRequired,
+    descricao: PropTypes.string,
     cor: PropTypes.string.isRequired,
   })).isRequired,
 
 };
 
-export default Table;
+export default TableResponsive;

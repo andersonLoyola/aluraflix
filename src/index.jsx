@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import Home from './Pages/Home';
-import CadastroVideos from './Pages/Cadastro/Video';
+import CadastroVideos from './Pages/Cadastro/Videos';
 import CadastroCategorias from './Pages/Cadastro/Categorias';
 
 ReactDOM.render(
